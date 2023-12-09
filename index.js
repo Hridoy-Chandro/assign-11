@@ -13,6 +13,7 @@ app.use(express.json());
 
 
 
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ookzbmv.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -31,7 +32,11 @@ async function run() {
 
 
         const roomsCollection = client.db('hotelDB').collection('rooms');
-        // const detailsCollection = client.db('hotelDB').collection('details');
+
+        const bookingsCollection = client.db('hotelDB').collection('bookings');
+
+
+
 
         app.get("/rooms", async (req, res) => {
             let sort = {};
@@ -43,6 +48,20 @@ async function run() {
         });
 
 
+        // app.get('/bookings', async(req, res) => {
+        //     const booking = req.body;
+        //     console.log(booking);
+        // });
+
+        // bookings 
+
+        app.post('/bookings', async(req, res) => {
+            const booking = req.body;
+            console.log(booking);
+        });
+
+
+
         // details 
         app.get("/details/:id", async (req, res) => {
             const id = req.params.id;
@@ -50,6 +69,9 @@ async function run() {
             const rooms = await roomsCollection.findOne(query);
             res.send(rooms);
         });
+
+
+
 
 
 
